@@ -10,6 +10,7 @@ version '1.0-SNAPSHOT'
 library {
     dependencies {
         api project(':greeter-lib')
+        api project(':cgreeter-lib')
     }
 
     binaries.configureEach { CppBinary binary ->

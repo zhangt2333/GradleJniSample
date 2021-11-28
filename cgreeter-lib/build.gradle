@@ -1,0 +1,18 @@
+plugins {
+    id 'cpp-library'
+}
+
+library {
+    binaries.configureEach { CppBinary binary ->
+        def compileTask = binary.compileTask.get()
+
+        compileTask.source.from fileTree(dir: "src/main/c", include: "**/*.c")
+
+        def toolChain = binary.toolChain
+        if (toolChain instanceof VisualCpp) {
+            compileTask.compilerArgs.addAll(["/TC"])
+        } else if (toolChain instanceof GccCompatibleToolChain) {
+            compileTask.compilerArgs.addAll(["-x", "c", "-std=c11"])
+        }
+    }
+}

@@ -4,8 +4,8 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include "demo.h"
+#include "cpphello.h"
 
-std::string demo::Greeter::greeting() {
+std::string cpphello::Greeter::greeting() {
     return std::string("Hello, World!");
 }

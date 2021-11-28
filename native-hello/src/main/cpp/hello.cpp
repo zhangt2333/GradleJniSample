@@ -2,12 +2,14 @@
 #include <iostream>
 
 #include "hello.h"
-#include "demo.h"
+#include "cpphello.h"
+#include "chello.h"
 
 JNIEXPORT void JNICALL
 Java_HelloWorld_print(JNIEnv *env, jobject obj)
 {
-    demo::Greeter greeter;
+    cpphello::Greeter greeter;
     std::cout << greeter.greeting() << std::endl;
+	printf("%s", cgreeting());
     return;
 }
