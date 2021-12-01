@@ -40,19 +40,18 @@ public class NativeLibraryLoader {
 
             byte[] buffer = new byte[4096];
 
-            URL[] urls = new URL[2];
+            URL[] urls = null;
+
             ClassLoader classLoader = NativeLibraryLoader.class.getClassLoader();
-            if (classLoader instanceof URLClassLoader) {
-                for (URL url : ((URLClassLoader) classLoader).getURLs()) {
-                    if (url.getPath().endsWith("classes/java/main/") || url.getPath().endsWith("classes/java/main")) {
-                        urls[0] = Paths.get(url.getPath(), "/../../../natives").toUri().toURL();
-                        urls[1] = Paths.get(url.getPath(), "/../../../").toUri().toURL();
-                    }
-                }
+            String path = NativeLibraryLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            if (path.endsWith("classes/java/main/") || path.endsWith("classes/java/main")) {
+                urls = new URL[2];
+                urls[0] = Paths.get(path, "/../../../natives").toUri().toURL();
+                urls[1] = Paths.get(path, "/../../../").toUri().toURL();
+                classLoader = new URLClassLoader(urls, classLoader);
             }
 
-            URLClassLoader urlClassLoader = new URLClassLoader(urls, classLoader);
-            InputStream inputStream = urlClassLoader.getResourceAsStream(fileName);
+            InputStream inputStream = classLoader.getResourceAsStream(fileName);
             OutputStream outputStream = new FileOutputStream(file);
 
             try {
