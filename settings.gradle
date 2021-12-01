@@ -1,6 +1,10 @@
 rootProject.name = 'GradleJniSample'
 include 'shadowjar-demo',
         'springboot-demo',
+
+        'hello-2nd-package',
+        'simple-java-caller',
+
         'native-hello',
         'greeter-lib',
         'cgreeter-lib'

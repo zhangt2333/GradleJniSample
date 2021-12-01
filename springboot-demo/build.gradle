@@ -26,8 +26,15 @@ compileJava {
     }
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs "${buildDir.path}/natives"
+        }
+    }
+}
+
 bootJar {
-    from "${buildDir.path}/natives"
 }
 
 

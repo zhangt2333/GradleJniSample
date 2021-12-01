@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
+    id 'maven-publish'
 }
 
 group 'org.example'
@@ -10,11 +10,15 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+    mavenLocal()
 }
 
-dependencies {
-    testImplementation 'junit:junit:4.13.2'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
 
 compileJava {
@@ -33,13 +37,4 @@ sourceSets {
     }
 }
 
-shadowJar {
-    manifest {
-        attributes 'Main-Class': 'HelloWorld'
-    }
-}
-
-test {
-    dependsOn ':native-hello:linkDebug'
-    systemProperty "java.library.path", file("${project(":native-hello").buildDir}/lib/main/debug").absolutePath
-}
+description = 'hello-2nd-package'
