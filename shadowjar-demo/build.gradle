@@ -19,16 +19,10 @@ dependencies {
 
 compileJava {
     dependsOn ':native-hello:linkRelease'
-    copy {
-        from "${project(":native-hello").buildDir}/lib/main/release"
-        into "${buildDir.path}/natives"
-    }
-}
-
-sourceSets {
-    main {
-        resources {
-            srcDirs "${buildDir.path}/natives"
+    doLast {
+        copy {
+            from "${project(":native-hello").buildDir}/lib/main/release"
+            into "${buildDir.path}/natives"
         }
     }
 }
@@ -37,6 +31,7 @@ shadowJar {
     manifest {
         attributes 'Main-Class': 'HelloWorld'
     }
+    from "${buildDir.path}/natives"
 }
 
 test {
