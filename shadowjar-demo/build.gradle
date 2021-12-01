@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:2.1.12.RELEASE'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+compileJava {
+    dependsOn ':native-hello:linkRelease'
+    copy {
+        from "${project(":native-hello").buildDir}/lib/main/release"
+        into "${buildDir.path}/natives"
+    }
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'HelloWorld'
+    }
+    from "${buildDir.path}/natives"
+}
+
+test {
+    dependsOn ':native-hello:linkDebug'
+    systemProperty "java.library.path", file("${project(":native-hello").buildDir}/lib/main/debug").absolutePath
+}

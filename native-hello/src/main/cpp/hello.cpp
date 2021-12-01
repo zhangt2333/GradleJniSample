@@ -10,6 +10,6 @@ Java_HelloWorld_print(JNIEnv *env, jobject obj)
 {
     cpphello::Greeter greeter;
     std::cout << greeter.greeting() << std::endl;
-	printf("%s", cgreeting());
+    std::cout << cgreeting() << std::endl;
     return;
 }
